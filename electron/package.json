@@ -1,5 +1,25 @@
 {
-  "name"    : "Smokester",
-  "version" : "0.1.0",
-  "main"    : "main.js"
+  "name": "smokester",
+  "version": "0.1.0",
+  "main": "main.js",
+  "description": "Smokester app gives order to your smoking habits",
+  "scripts": {
+    "test": "smkstrtest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NerveClasp/Smokester.git"
+  },
+  "keywords": [
+    "smoke",
+    "sigaretes",
+    "smoking",
+    "social"
+  ],
+  "author": "Roman Gorokhov, Kyiv (Ukraine)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NerveClasp/Smokester/issues"
+  },
+  "homepage": "https://github.com/NerveClasp/Smokester#readme"
 }
