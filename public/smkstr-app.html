@@ -1,0 +1,17 @@
+<link rel="import" href="bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="sm-login.html">
+<dom-module id="smkstr-app">
+  <template>
+    <firebase-app auth-domain="smokester-4b5bf.firebaseapp.com"
+      database-url="https://smokester-4b5bf.firebaseio.com/"
+      api-key="AIzaSyDPuCv8MzcsxfWVcQaux84hA3OgMISkPP0">
+    </firebase-app>
+    <sm-login></sm-login>
+  </template>
+  <script>
+    Polymer({
+      is: "smkstr-app"
+
+    });
+  </script>
+</dom-module>

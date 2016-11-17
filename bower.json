@@ -1,0 +1,31 @@
+{
+  "name": "Smokester",
+  "version": "0.0.0",
+  "homepage": "https://github.com/NerveClasp/Smokester",
+  "authors": [
+    "Roman Horokhov",
+    "a.k.a. NerveClasp <nerveclasp@gmail.com>"
+  ],
+  "description": "Smokester gives you more control over your smoking habbits",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "Smokester"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~1.7.0",
+    "polymerfire": "firebase/polymerfire#~0.10.3",
+    "paper-button": "PolymerElements/paper-button#^1.0.14"
+  }
+}
