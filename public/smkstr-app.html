@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/polymerfire/firebase-app.html">
 <link rel="import" href="sm-login.html">
+<link rel="import" href="bower_components/material-progress/material-progress.html">
 <dom-module id="smkstr-app">
   <template>
     <firebase-app auth-domain="smokester-4b5bf.firebaseapp.com"
@@ -7,6 +8,23 @@
       api-key="AIzaSyDPuCv8MzcsxfWVcQaux84hA3OgMISkPP0">
     </firebase-app>
     <sm-login></sm-login>
+    <!-- <material-progress> -->
+      <material-progress-bars max="128" bar-height="22" animated>
+      <div class="bar" data-value="21">
+        <iron-icon icon="maps:directions-walk"></iron-icon>
+      </div>
+      <div class="bar run" data-value="13">
+        <iron-icon icon="maps:directions-run"></iron-icon>
+      </div>
+      <div class="bar hello" data-value="50">
+        <iron-icon icon="maps:directions-bike"></iron-icon>
+        <span>Hello</span>
+      </div>
+      <div class="bar world" data-value="30">
+        <span>World</span>
+      </div>
+    </material-progress-bars>
+  <!-- </material-progress> -->
   </template>
   <script>
     Polymer({
