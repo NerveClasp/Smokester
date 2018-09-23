@@ -1,7 +1,9 @@
 import Paper from "@material-ui/core/Paper";
 import { Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import moment from "moment";
 import * as React from "react";
+import { CircularProgress } from "../index";
 
 const styles = (theme: Theme) => ({
   outerRing: {
@@ -11,10 +13,19 @@ const styles = (theme: Theme) => ({
     ...theme.mixins.gutters(),
     height: "100%",
     padding: theme.spacing.unit * 2
+  },
+  wrapper: {
+    height: 100,
+    width: 100,
+    marginRight: "auto",
+    marginLeft: "auto",
+    transform: "rotateZ(-90deg)"
   }
 });
 
 interface Props {
+  deadline?: moment.Moment | string;
+  period: number;
   classes: {
     root: string;
     stopwatch: string;
@@ -23,39 +34,70 @@ interface Props {
   };
 }
 
-function StopWatch(props: Props) {
-  const { classes } = props;
+interface State {
+  timeLeft: number;
+  percentage: number;
+}
 
-  return (
-    <div>
-      <Paper className={classes.root} elevation={1}>
-        <Typography variant="headline" component="h3">
-          This will soon be a timer.
-        </Typography>
-        <Typography component="p">
-          But I'm a bit tired for today and need a little brake =)
-        </Typography>
-        <div className={classes.wrapper}>
-          <svg
-            className={classes.stopwatch}
-            viewBox="0 0 100 100"
-            height="100"
-            width="100"
-          >
-            <circle
-              className={classes.outerRing}
-              cx="50"
-              cy="50"
-              r="40"
-              stroke="black"
-              strokeWidth="5"
-              fill="none"
-            />
-          </svg>
-        </div>
-      </Paper>
-    </div>
-  );
+class StopWatch extends React.Component<Props, State> {
+  public interval: number;
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      timeLeft: 0,
+      percentage: 100
+    };
+  }
+
+  public componentDidMount() {
+    const { deadline, period } = this.props;
+    if (deadline) {
+      this.interval = window.setInterval(() => {
+        const timeLeft = parseInt(
+          moment()
+            .diff(deadline, "second")
+            .toFixed(0)
+            .toString(),
+          0
+        );
+        const percentage = (Math.abs(timeLeft) / period) * 100;
+        this.setState({
+          timeLeft,
+          percentage
+        });
+      }, 1000);
+    }
+  }
+
+  public componentWillUnmount() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
+  public render() {
+    const { classes } = this.props;
+    const { timeLeft, percentage } = this.state;
+    return (
+      <div>
+        <Paper className={classes.root} elevation={1}>
+          <Typography variant="headline" component="h3">
+            This will soon be a timer.
+          </Typography>
+          <Typography component="p">
+            But I'm a bit tired for today and need a little brake =)
+            <br />
+            {timeLeft.toString()}
+            <br />
+            {`${Math.floor(timeLeft / 60)}:${Math.abs(timeLeft % 60)}`}
+            <br />
+            {`${Math.floor(percentage)}%`}
+          </Typography>
+          <CircularProgress progress={percentage} />
+        </Paper>
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(StopWatch);

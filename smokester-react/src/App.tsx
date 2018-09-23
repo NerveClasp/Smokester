@@ -1,6 +1,7 @@
 // import primary from "@material-ui/core/colors/blueGrey";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import moment from "moment";
 import * as React from "react";
 import "./App.css";
 import { BottomMenu, Header, StopWatch } from "./components";
@@ -30,7 +31,10 @@ class App extends React.Component {
           <CssBaseline />
           <Header />
           <div>
-            <StopWatch />
+            <StopWatch
+              deadline={moment("23.09.2018 14:00", "DD.MM.YYYY HH:mm")}
+              period={20 * 60}
+            />
           </div>
           <BottomMenu />
         </MuiThemeProvider>
