@@ -1,6 +1,6 @@
 import Paper from "@material-ui/core/Paper";
 import { Theme, withStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 import moment from "moment";
 import * as React from "react";
 import { CircularProgress } from "../index";
@@ -18,8 +18,7 @@ const styles = (theme: Theme) => ({
     height: 100,
     width: 100,
     marginRight: "auto",
-    marginLeft: "auto",
-    transform: "rotateZ(-90deg)"
+    marginLeft: "auto"
   }
 });
 
@@ -44,28 +43,18 @@ class StopWatch extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      timeLeft: 0,
+      timeLeft: this.getTimeLeft(),
       percentage: 100
     };
   }
 
   public componentDidMount() {
-    const { deadline, period } = this.props;
+    const { deadline } = this.props;
+    this.setTimeAndInterval();
     if (deadline) {
       this.interval = window.setInterval(() => {
-        const timeLeft = parseInt(
-          moment()
-            .diff(deadline, "second")
-            .toFixed(0)
-            .toString(),
-          0
-        );
-        const percentage = (Math.abs(timeLeft) / period) * 100;
-        this.setState({
-          timeLeft,
-          percentage
-        });
-      }, 1000);
+        this.setTimeAndInterval();
+      }, 30000);
     }
   }
 
@@ -77,11 +66,11 @@ class StopWatch extends React.Component<Props, State> {
 
   public render() {
     const { classes } = this.props;
-    const { timeLeft, percentage } = this.state;
+    const { percentage } = this.state;
     return (
       <div>
         <Paper className={classes.root} elevation={1}>
-          <Typography variant="headline" component="h3">
+          {/* <Typography variant="headline" component="h3">
             This will soon be a timer.
           </Typography>
           <Typography component="p">
@@ -89,14 +78,61 @@ class StopWatch extends React.Component<Props, State> {
             <br />
             {timeLeft.toString()}
             <br />
-            {`${Math.floor(timeLeft / 60)}:${Math.abs(timeLeft % 60)}`}
+            {}
             <br />
             {`${Math.floor(percentage)}%`}
-          </Typography>
-          <CircularProgress progress={percentage} />
+          </Typography> */}
+          <CircularProgress progress={percentage} details={this.getDetails()} />
         </Paper>
       </div>
     );
+  }
+
+  private getDetails() {
+    const { timeLeft } = this.state;
+
+    const formattedTimeLeft = moment()
+      .startOf("day")
+      .seconds(Math.abs(timeLeft))
+      .format("H:mm");
+    if (timeLeft < 0) {
+      return `${formattedTimeLeft} left`;
+    }
+    return `+${formattedTimeLeft} passed`;
+  }
+
+  private setTimeAndInterval() {
+    const { deadline, period } = this.props;
+
+    if (deadline) {
+      const timeLeft = this.getTimeLeft();
+      const percentage = this.getPercentage(timeLeft, period);
+      this.setState({
+        timeLeft,
+        percentage
+      });
+    }
+  }
+
+  private getTimeLeft() {
+    const { deadline } = this.props;
+    if (deadline) {
+      return parseInt(
+        moment()
+          .diff(this.props.deadline, "second")
+          .toFixed(0)
+          .toString(),
+        0
+      );
+    }
+    return 0;
+  }
+
+  private getPercentage(current: number, total: number) {
+    if (current < 0) {
+      return (Math.abs(current) / total) * 100;
+    }
+    return (Math.abs(current) + total / total) * 100;
   }
 }
 

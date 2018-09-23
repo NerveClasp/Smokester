@@ -32,8 +32,8 @@ class App extends React.Component {
           <Header />
           <div>
             <StopWatch
-              deadline={moment("23.09.2018 14:00", "DD.MM.YYYY HH:mm")}
-              period={20 * 60}
+              deadline={moment("23.09.2018 22:30", "DD.MM.YYYY HH:mm")}
+              period={60 * 60}
             />
           </div>
           <BottomMenu />
